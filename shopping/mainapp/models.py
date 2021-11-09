@@ -106,11 +106,17 @@ class CartProduct(models.Model):
         return "Продукт: {} для корзины".format(self.content_object.title)
 
 
+    def save(self, *args, **kwargs):
+        self.final_price = self.qty * self.content_object.price
+        super().save(*args, **kwargs)
+
+
 class Cart(models.Model):
-    owner = models.ForeignKey('Customer', verbose_name='Владелец', on_delete=models.CASCADE)
-    product = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
+
+    owner = models.ForeignKey('Customer', null=True, verbose_name='Владелец', on_delete=models.CASCADE)
+    products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(default=0)
-    final_price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Общая стоимость')
+    final_price = models.DecimalField(max_digits=9, default=0, decimal_places=2, verbose_name='Общая стоимость')
     in_order = models.BooleanField(default=False)
     for_anonymous_user = models.BooleanField(default=False)
 
