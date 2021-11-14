@@ -20,6 +20,7 @@
 <style>
   body{
     padding-top: 50px;
+    padding-bottom: 150px;
   }
 </style>
   <body>
@@ -60,6 +61,16 @@
 
         <div class="col-lg-9">
         {% block content %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            {% endfor %}
+          {% endif %}
           <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
             <ol class="carousel-indicators">
               <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -117,7 +128,7 @@
     <!-- /.container -->
 
     <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-3 bg-dark fixed-bottom ">
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p>
       </div>
